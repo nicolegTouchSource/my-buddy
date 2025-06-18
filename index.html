@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Virtual Pet</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>🐶 Virtual Pet Game</h1>
+  <div id="pet">
+    <img src="https://placekitten.com/200/200" alt="Your Pet">
+    <p>Hunger: <span id="hunger">50</span></p>
+    <p>Happiness: <span id="happiness">50</span></p>
+    <p>Energy: <span id="energy">50</span></p>
+  </div>
+
+  <div id="actions">
+    <button onclick="feed()">🍖 Feed</button>
+    <button onclick="play()">🎾 Play</button>
+    <button onclick="rest()">💤 Rest</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+body {
+  font-family: sans-serif;
+  text-align: center;
+  background-color: #f0f8ff;
+}
+
+#pet img {
+  width: 200px;
+  border-radius: 10px;
+}
+
+#actions button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 1.2em;
+}
