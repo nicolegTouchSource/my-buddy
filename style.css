@@ -6,15 +6,37 @@ body {
   padding: 20px;
 }
 
+/* Editable pet name styling */
+.editable-name {
+  color: #4CAF50;
+  border-bottom: 2px dashed transparent;
+  padding: 2px 8px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  outline: none;
+  background: transparent;
+}
+
+.editable-name:hover {
+  border-bottom-color: #4CAF50;
+  background: rgba(76, 175, 80, 0.1);
+}
+
+.editable-name:focus {
+  border-bottom-color: #4CAF50;
+  background: rgba(76, 175, 80, 0.15);
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+}
+
 /* Game container with background */
 #game-area {
   position: relative;
-  width: 80vw;
-  height: 60vh;
-  max-width: 1000px;
-  max-height: 600px;
-  min-width: 600px;
-  min-height: 400px;
+  width: 90vw;
+  height: 70vh;
+  max-width: 1200px;
+  max-height: 800px;
+  min-width: 700px;
+  min-height: 500px;
   margin: 20px auto;
   background-image: url('images/background1.jpg');
   background-size: cover;
@@ -31,7 +53,7 @@ body {
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 5;
+  z-index: 6;
   transition: all 2s ease-in-out; /* Smooth movement animation */
 }
 
@@ -39,6 +61,111 @@ body {
   width: 150px;
   border-radius: 10px;
   transition: all 0.3s ease;
+}
+
+/* Food bowl styling */
+#food-bowl {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+  z-index: 5;
+  transition: all 0.3s ease;
+}
+
+#food-bowl:hover {
+  transform: scale(1.1);
+}
+
+#food-bowl img {
+  width: 110px;
+  height: 110px;
+  transition: all 0.3s ease;
+}
+
+/* Pet bed styling */
+#pet-bed {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  cursor: pointer;
+  z-index: 5;
+  transition: all 0.3s ease;
+}
+
+#pet-bed:hover {
+  transform: scale(1.1);
+}
+
+#pet-bed img {
+  width: 280px;
+  height: 280px;
+  transition: all 0.3s ease;
+}
+
+/* Tennis ball animation */
+.tennis-ball {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  z-index: 15;
+  pointer-events: none;
+  left: -50px;
+  top: 60%;
+  opacity: 0;
+}
+
+.tennis-ball img {
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes bounce-across {
+  0% {
+    left: -50px;
+    top: 60%;
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+  12% {
+    top: 25%;
+    transform: rotate(45deg);
+  }
+  25% {
+    top: 70%;
+    transform: rotate(90deg);
+  }
+  37% {
+    top: 20%;
+    transform: rotate(135deg);
+  }
+  50% {
+    top: 75%;
+    transform: rotate(180deg);
+  }
+  62% {
+    top: 15%;
+    transform: rotate(225deg);
+  }
+  75% {
+    top: 65%;
+    transform: rotate(270deg);
+  }
+  87% {
+    top: 30%;
+    transform: rotate(315deg);
+  }
+  100% {
+    left: calc(100% + 50px);
+    top: 60%;
+    transform: rotate(360deg);
+    opacity: 1;
+  }
+}
+
+.bounce-animation {
+  animation: bounce-across 2.5s ease-out forwards;
+  opacity: 1;
 }
 
 #actions {

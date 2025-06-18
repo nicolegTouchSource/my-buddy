@@ -10,14 +10,47 @@ let currentBackgroundIndex = 0;
 const backgroundImages = [
   'images/background1.jpg',
   'images/background2.jpg',
-  'images/background3.jpg'
+  'images/background3.jpg',
+  'images/background4.jpg'
 ];
+
+// Pet name functionality
+function initializePetName() {
+  const petNameElement = document.getElementById('pet-name');
+  
+  // Load saved name from localStorage or use default
+  const savedName = localStorage.getItem('petName') || 'Emi';
+  petNameElement.textContent = savedName;
+  
+  // Save name when user finishes editing
+  petNameElement.addEventListener('blur', function() {
+    const newName = this.textContent.trim() || 'Emi';
+    this.textContent = newName;
+    localStorage.setItem('petName', newName);
+  });
+  
+  // Handle Enter key to finish editing
+  petNameElement.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      this.blur();
+    }
+  });
+  
+  // Prevent line breaks
+  petNameElement.addEventListener('paste', function(e) {
+    e.preventDefault();
+    const text = (e.clipboardData || window.clipboardData).getData('text');
+    const cleanText = text.replace(/\n/g, ' ').trim();
+    document.execCommand('insertText', false, cleanText);
+  });
+}
 
 function updateStats() {
   updateStatusBar('hunger', hunger);
   updateStatusBar('happiness', happiness);
   updateStatusBar('energy', energy);
   updatePetAnimation();
+  updateBowlState();
 }
 
 function updatePetAnimation() {
@@ -68,16 +101,75 @@ function updateStatusBar(statName, value) {
 
 function feed() {
   if (isResting) return; // Can't feed while resting
-  hunger = Math.max(0, hunger - 10);
+  hunger = Math.min(100, hunger + 15); // Feeding increases hunger (fills up)
   happiness = Math.min(100, happiness + 5);
   updateStats();
+}
+
+// Bowl feeding functionality
+function feedFromBowl() {
+  if (isResting) return; // Can't feed while resting
+  
+  const bowl = document.querySelector('#food-bowl img');
+  
+  // Feed the pet
+  hunger = Math.min(100, hunger + 15);
+  happiness = Math.min(100, happiness + 5);
+  
+  // Change bowl to full
+  bowl.src = 'images/bowlFull.svg';
+  
+  updateStats();
+  updateBowlState();
+}
+
+function updateBowlState() {
+  const bowl = document.querySelector('#food-bowl img');
+  
+  // If hunger is 20 or under, change bowl back to empty
+  if (hunger <= 20) {
+    bowl.src = 'images/bowlEmpty.svg';
+  }
 }
 
 function play() {
   if (isResting) return; // Can't play while resting
   happiness = Math.min(100, happiness + 10);
   energy = Math.max(0, energy - 15);
+  
+  // Create and animate tennis ball
+  createTennisBall();
+  
   updateStats();
+}
+
+function createTennisBall() {
+  const gameArea = document.getElementById('game-area');
+  
+  // Create tennis ball element
+  const tennisBall = document.createElement('div');
+  tennisBall.className = 'tennis-ball';
+  
+  // Create img element
+  const ballImg = document.createElement('img');
+  ballImg.src = 'images/tennisBall.svg';
+  ballImg.alt = 'Tennis Ball';
+  tennisBall.appendChild(ballImg);
+  
+  // Add to game area
+  gameArea.appendChild(tennisBall);
+  
+  // Start animation immediately
+  requestAnimationFrame(() => {
+    tennisBall.classList.add('bounce-animation');
+  });
+  
+  // Remove tennis ball after animation completes
+  setTimeout(() => {
+    if (tennisBall.parentNode) {
+      tennisBall.remove();
+    }
+  }, 2500);
 }
 
 function changeBackground() {
@@ -136,13 +228,13 @@ function updateButtonStates() {
 }
 
 function decay() {
-  hunger = Math.min(100, hunger + 2);
+  hunger = Math.max(0, hunger - 2); // Hunger decreases over time (pet gets hungry)
   happiness = Math.max(0, happiness - 1);
   energy = Math.max(0, energy - 1);
   updateStats();
 
   // Check if pet needs care but don't stop the game
-  if (hunger >= 100 || happiness <= 0 || energy <= 0) {
+  if (hunger <= 0 || happiness <= 0 || energy <= 0) {
     console.log("Your pet needs better care!");
     // Game continues running so player can still interact
   }
@@ -248,3 +340,6 @@ const pooLoop = setInterval(createPoo, 30000);
 
 // Start pet movement
 startPetMovement();
+
+// Initialize pet name
+initializePetName();

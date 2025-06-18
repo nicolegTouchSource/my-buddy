@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>My Buddy: Emi</h1>
+  <h1>My Buddy: <span id="pet-name" contenteditable="true" class="editable-name">Emi</span></h1>
   
   <div id="stats-container">
     <div class="stat">
@@ -35,6 +35,12 @@
   <div id="game-area">
     <div id="pet">
       <img src="images/pet-normal.png" alt="Your Pet">
+    </div>
+    <div id="food-bowl" onclick="feedFromBowl()">
+      <img src="images/bowlEmpty.svg" alt="Food Bowl">
+    </div>
+    <div id="pet-bed" onclick="rest()">
+      <img src="images/petBed.svg" alt="Pet Bed">
     </div>
   </div>
 
